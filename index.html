@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NEXUS — Discover, watch, and share videos from creators around the world. A next-generation video streaming platform.">
+  <meta name="theme-color" content="#0D0D0F">
+
+  <title>NEXUS — Video Streaming Platform</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components/nav.css">
+  <link rel="stylesheet" href="css/components/category-chips.css">
+  <link rel="stylesheet" href="css/components/video-card.css">
+  <link rel="stylesheet" href="css/components/footer.css">
+  <link rel="stylesheet" href="css/pages/home.css">
+</head>
+<body data-theme="dark">
+
+  <!-- ============================================================
+       HEADER / NAVIGATION
+       ============================================================ -->
+  <header class="site-header" role="banner">
+    <nav class="nav" aria-label="Primary navigation">
+
+      <!-- Hamburger (mobile only) -->
+      <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile-panel">
+        <span class="nav__hamburger-line"></span>
+        <span class="nav__hamburger-line"></span>
+        <span class="nav__hamburger-line"></span>
+      </button>
+
+      <!-- Logo -->
+      <a href="/" class="nav__logo" aria-label="NEXUS Home">
+        <svg class="nav__logo-icon" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="currentColor"/>
+          <path d="M8 8L20 14L8 20V8Z" fill="#FFFFFF"/>
+        </svg>
+        <span class="nav__logo-text">NEXUS</span>
+      </a>
+
+      <!-- Search Bar (visual placeholder — logic is Ananya's phase) -->
+      <div class="nav__search">
+        <form class="nav__search-form" role="search" action="#" onsubmit="return false;">
+          <input
+            type="search"
+            class="nav__search-input"
+            id="search-input"
+            placeholder="Search videos..."
+            aria-label="Search videos"
+            autocomplete="off"
+          >
+          <!-- TODO(other-phase): Search submission logic (Ananya's phase) -->
+          <button type="submit" class="nav__search-btn" aria-label="Search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="nav__actions">
+        <!-- Create / Upload (placeholder) -->
+        <button class="nav__action-btn nav__action-btn--hide-mobile" id="btn-create" aria-label="Create video">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </button>
+
+        <!-- Notifications (placeholder) -->
+        <button class="nav__action-btn nav__action-btn--hide-mobile" id="btn-notifications" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button class="nav__action-btn nav__theme-toggle" id="theme-toggle" aria-label="Switch to light mode">
+          <!-- Sun icon (shown in dark mode — click to go light) -->
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <!-- Moon icon (shown in light mode — click to go dark) -->
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display: none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <!-- Profile Avatar -->
+        <button class="nav__avatar" id="btn-profile" aria-label="Your profile">
+          S
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Nav Panel -->
+  <div class="nav__mobile-panel" id="nav-mobile-panel" aria-hidden="true">
+    <div class="nav__mobile-search">
+      <form class="nav__search-form" role="search" action="#" onsubmit="return false;">
+        <input
+          type="search"
+          class="nav__search-input"
+          placeholder="Search videos..."
+          aria-label="Search videos on mobile"
+          autocomplete="off"
+        >
+        <button type="submit" class="nav__search-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+    <ul class="nav__mobile-links">
+      <li>
+        <a href="/" class="nav__mobile-link" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Home
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav__mobile-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="23 7 16 12 23 17 23 7"/>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+          Trending
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav__mobile-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 11a9 9 0 0 1 9 9"/>
+            <path d="M4 4a16 16 0 0 1 16 16"/>
+            <circle cx="5" cy="19" r="1"/>
+          </svg>
+          Subscriptions
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav__mobile-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+          Library
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main class="main-content container" id="main-content">
+
+    <!-- Screen reader only page title -->
+    <h1 class="sr-only">NEXUS — Home</h1>
+
+    <!-- ========== Category Chips ========== -->
+    <section class="category-chips category-chips--fade-right" aria-label="Video categories">
+      <h2 class="sr-only">Categories</h2>
+      <div class="category-chips__list" role="tablist" aria-label="Filter by category">
+        <button class="category-chip category-chip--active" role="tab" aria-selected="true">All</button>
+        <button class="category-chip" role="tab" aria-selected="false">Technology</button>
+        <button class="category-chip" role="tab" aria-selected="false">Photography</button>
+        <button class="category-chip" role="tab" aria-selected="false">Food</button>
+        <button class="category-chip" role="tab" aria-selected="false">Travel</button>
+        <button class="category-chip" role="tab" aria-selected="false">Art &amp; Design</button>
+        <button class="category-chip" role="tab" aria-selected="false">Science</button>
+        <button class="category-chip" role="tab" aria-selected="false">Music</button>
+        <button class="category-chip" role="tab" aria-selected="false">Fitness</button>
+        <button class="category-chip" role="tab" aria-selected="false">Lifestyle</button>
+        <button class="category-chip" role="tab" aria-selected="false">Gaming</button>
+        <button class="category-chip" role="tab" aria-selected="false">Education</button>
+        <button class="category-chip" role="tab" aria-selected="false">News</button>
+        <button class="category-chip" role="tab" aria-selected="false">Film</button>
+      </div>
+    </section>
+
+    <!-- ========== Video Feed ========== -->
+    <section class="video-feed" aria-label="Recommended videos">
+      <h2 class="sr-only">Recommended</h2>
+
+      <div class="video-grid">
+
+        <!-- Video Card 1 -->
+        <article class="video-card" data-video-id="v001">
+          <a href="#" class="video-card__thumbnail" aria-label="Building a Neural Network from Scratch — 18 minutes 42 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-01.jpg"
+              alt="Stylized neural network diagram with glowing nodes and code in the background"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">18:42</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #4A90D9; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">CC</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">Building a Neural Network from Scratch</h3>
+              <a href="#" class="video-card__channel">CodeCraft</a>
+              <div class="video-card__meta">
+                <span>245K views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>1 week ago</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video Card 2 -->
+        <article class="video-card" data-video-id="v002">
+          <a href="#" class="video-card__thumbnail" aria-label="Ultimate Guide to Street Photography — 24 minutes 15 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-02.jpg"
+              alt="Photographer silhouette on a moody urban street at golden hour"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">24:15</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #E67E22; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">FL</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">Ultimate Guide to Street Photography</h3>
+              <a href="#" class="video-card__channel">FrameLife</a>
+              <div class="video-card__meta">
+                <span>182K views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>3 days ago</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video Card 3 -->
+        <article class="video-card" data-video-id="v003">
+          <a href="#" class="video-card__thumbnail" aria-label="Making the Perfect Sourdough Bread — 32 minutes 8 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-03.jpg"
+              alt="Golden-crusted artisan sourdough loaf on a rustic wooden board with flour"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">32:08</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #C0392B; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">TK</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">Making the Perfect Sourdough Bread</h3>
+              <a href="#" class="video-card__channel">The Kitchen Lab</a>
+              <div class="video-card__meta">
+                <span>520K views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>2 weeks ago</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video Card 4 -->
+        <article class="video-card" data-video-id="v004">
+          <a href="#" class="video-card__thumbnail" aria-label="Exploring Iceland's Hidden Waterfalls — 15 minutes 27 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-04.jpg"
+              alt="Dramatic Icelandic waterfall cascading over mossy basalt rocks"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">15:27</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #27AE60; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">WB</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">Exploring Iceland's Hidden Waterfalls</h3>
+              <a href="#" class="video-card__channel">Wanderbound</a>
+              <div class="video-card__meta">
+                <span>98K views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>5 days ago</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video Card 5 -->
+        <article class="video-card" data-video-id="v005">
+          <a href="#" class="video-card__thumbnail" aria-label="Beginner's Guide to Digital Illustration — 41 minutes 3 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-05.jpg"
+              alt="Digital artist drawing a colorful illustration on a Wacom tablet"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">41:03</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #8E44AD; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">PA</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">Beginner's Guide to Digital Illustration</h3>
+              <a href="#" class="video-card__channel">PixelArtistry</a>
+              <div class="video-card__meta">
+                <span>312K views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>1 month ago</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video Card 6 -->
+        <article class="video-card" data-video-id="v006">
+          <a href="#" class="video-card__thumbnail" aria-label="The Science of Black Holes Explained — 22 minutes 51 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-06.jpg"
+              alt="Black hole visualization with orange and blue accretion disk in deep space"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">22:51</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #2980B9; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">CS</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">The Science of Black Holes Explained</h3>
+              <a href="#" class="video-card__channel">CosmicScope</a>
+              <div class="video-card__meta">
+                <span>1.2M views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>3 weeks ago</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video Card 7 -->
+        <article class="video-card" data-video-id="v007">
+          <a href="#" class="video-card__thumbnail" aria-label="Lo-Fi Beats to Study To — Live Mix — 3 hours 14 minutes 22 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-07.jpg"
+              alt="Cozy anime-style study desk with sleeping cat, rain outside window at night"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">3:14:22</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #F39C12; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">CH</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">Lo-Fi Beats to Study To — Live Mix</h3>
+              <a href="#" class="video-card__channel">ChillHaven</a>
+              <div class="video-card__meta">
+                <span>4.8M views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>Streaming now</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video Card 8 -->
+        <article class="video-card" data-video-id="v008">
+          <a href="#" class="video-card__thumbnail" aria-label="30-Minute Full Body HIIT Workout — 31 minutes 45 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-08.jpg"
+              alt="Athletic person mid-jump during a HIIT workout in a modern gym"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">31:45</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #E74C3C; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">IF</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">30-Minute Full Body HIIT Workout</h3>
+              <a href="#" class="video-card__channel">IronFlow Fitness</a>
+              <div class="video-card__meta">
+                <span>890K views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>4 days ago</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video Card 9 -->
+        <article class="video-card" data-video-id="v009">
+          <a href="#" class="video-card__thumbnail" aria-label="How Electric Cars Actually Work — 19 minutes 33 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-09.jpg"
+              alt="Cutaway diagram of an electric vehicle showing battery pack and motor"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">19:33</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #1ABC9C; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">TE</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">How Electric Cars Actually Work</h3>
+              <a href="#" class="video-card__channel">TechExplained</a>
+              <div class="video-card__meta">
+                <span>675K views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>10 days ago</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video Card 10 -->
+        <article class="video-card" data-video-id="v010">
+          <a href="#" class="video-card__thumbnail" aria-label="Minimalist Apartment Tour — Tokyo — 12 minutes 18 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-10.jpg"
+              alt="Minimalist Japanese apartment with natural wood, tatami room, and Tokyo skyline view"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">12:18</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #D35400; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">SL</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">Minimalist Apartment Tour — Tokyo</h3>
+              <a href="#" class="video-card__channel">SlowLiving</a>
+              <div class="video-card__meta">
+                <span>156K views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>2 days ago</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video Card 11 -->
+        <article class="video-card" data-video-id="v011">
+          <a href="#" class="video-card__thumbnail" aria-label="Understanding Quantum Computing — 28 minutes 9 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-11.jpg"
+              alt="Quantum processor chip glowing blue with cold vapor in a lab setting"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">28:09</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #6C5CE7; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">QB</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">Understanding Quantum Computing</h3>
+              <a href="#" class="video-card__channel">QuantumByte</a>
+              <div class="video-card__meta">
+                <span>410K views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>6 days ago</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video Card 12 -->
+        <article class="video-card" data-video-id="v012">
+          <a href="#" class="video-card__thumbnail" aria-label="Cinematic Drone Footage — Swiss Alps — 8 minutes 56 seconds">
+            <img
+              class="video-card__thumbnail-img"
+              src="assets/thumbnails/thumbnail-12.jpg"
+              alt="Aerial drone view of Swiss Alps with snow-capped peaks, green valley, and winding river"
+              loading="lazy"
+            >
+            <span class="video-card__duration" aria-hidden="true">8:56</span>
+          </a>
+          <div class="video-card__body">
+            <div class="video-card__avatar" aria-hidden="true">
+              <div class="video-card__avatar-img" style="background-color: #16A085; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; width:100%; height:100%;">SA</div>
+            </div>
+            <div class="video-card__info">
+              <h3 class="video-card__title">Cinematic Drone Footage — Swiss Alps</h3>
+              <a href="#" class="video-card__channel">SkyAtlas</a>
+              <div class="video-card__meta">
+                <span>2.1M views</span>
+                <span class="video-card__meta-separator" aria-hidden="true"></span>
+                <span>1 month ago</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo">NEXUS</span>
+        <span class="footer__tagline">Discover. Watch. Share.</span>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="#" class="footer__link">About</a>
+        <a href="#" class="footer__link">Terms</a>
+        <a href="#" class="footer__link">Privacy</a>
+        <a href="#" class="footer__link">Contact</a>
+        <a href="#" class="footer__link">Help</a>
+      </nav>
+    </div>
+    <div class="footer__bottom">
+      <span class="footer__copyright">&copy; 2026 NEXUS. All rights reserved.</span>
+      <span class="footer__team">Built by Neon Nexus</span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/theme-toggle.js"></script>
+
+</body>
+</html>
