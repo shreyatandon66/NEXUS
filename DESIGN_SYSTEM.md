@@ -151,40 +151,81 @@ In dark mode, shadows are less visible against dark backgrounds, so `--shadow-md
 
 ## Video Data Shape
 
-All sample/production video data follows this consistent object structure. Other teammates' phases (search, filters, React state) should consume this same shape:
+All sample/production video data follows this consistent object structure (defined in `data/videos.js`). Other teammates' phases (search, filters, React state) should consume this same shape:
 
 ```js
 {
-  id: String,          // Unique identifier, e.g. "v001"
-  title: String,       // Video title
-  thumbnail: String,   // Path to thumbnail image
+  id: String,              // Unique identifier, e.g. "v001"
+  title: String,           // Video title
+  thumbnail: String,       // Relative path to thumbnail, e.g. "assets/thumbnails/thumbnail-01.jpg"
   channel: {
-    name: String,      // Channel display name
-    avatar: String     // Path to channel avatar image
+    name: String,          // Channel display name
+    avatar: String|null,   // Path to channel avatar image (null = use initials)
+    color: String          // Hex color for avatar background, e.g. "#4A90D9"
   },
-  duration: String,    // Formatted duration, e.g. "18:42"
-  views: Number,       // View count as integer
-  uploadDate: String,  // ISO date string, e.g. "2026-08-28"
-  category: String     // Category label, e.g. "Technology"
+  duration: String,        // Formatted duration, e.g. "18:42" or "3:14:22"
+  durationSeconds: Number, // Duration in total seconds (for sorting/filtering)
+  views: Number,           // View count as integer, e.g. 245000
+  uploadDate: String,      // ISO date string, e.g. "2026-08-28"
+  category: String         // Display label, e.g. "Technology", "Art & Design"
 }
 ```
+
+### Category Slug Mapping
+
+The HTML uses **lowercase slug** `data-category` attributes. The `NEXUS_VIDEOS` data uses **display labels** in the `category` field. When building filter logic, use this mapping:
+
+| Display Label (data) | Slug (HTML `data-category`) |
+|---|---|
+| Technology | `technology` |
+| Photography | `photography` |
+| Food | `food` |
+| Travel | `travel` |
+| Art & Design | `art-design` |
+| Science | `science` |
+| Music | `music` |
+| Fitness | `fitness` |
+| Lifestyle | `lifestyle` |
+| Gaming | `gaming` |
+| Education | `education` |
+| News | `news` |
+| Film | `film` |
+
+> **Convention:** To derive a slug from a display label, lowercase and replace spaces/ampersands with hyphens: `"Art & Design"` → `"art-design"`. A utility function for this is recommended.
 
 ---
 
 ## File Organization
 
 ```
-css/
-├── reset.css              # CSS reset baseline
-├── tokens.css             # All design tokens (both themes)
-├── global.css             # Base typography, layout, utilities
-├── components/            # Component-specific styles
-│   ├── nav.css
-│   ├── video-card.css
-│   ├── category-chips.css
-│   └── footer.css
-└── pages/                 # Page-specific styles
-    └── home.css
+NEXUS/
+├── index.html                 # Main HTML entry point (home page)
+├── DESIGN_SYSTEM.md           # This file — design reference
+├── README.md                  # Project overview & team guide
+├── .gitignore                 # Git ignore rules
+│
+├── css/
+│   ├── reset.css              # CSS reset baseline
+│   ├── tokens.css             # All design tokens (both themes)
+│   ├── global.css             # Base typography, layout, utilities
+│   ├── components/            # Component-specific styles (BEM)
+│   │   ├── nav.css
+│   │   ├── video-card.css
+│   │   ├── category-chips.css
+│   │   └── footer.css
+│   └── pages/                 # Page-specific layout styles
+│       └── home.css
+│
+├── js/
+│   └── theme-toggle.js        # Theme switching + hamburger menu + chips fade
+│
+├── data/
+│   └── videos.js              # Sample video data (NEXUS_VIDEOS array)
+│
+└── assets/
+    └── thumbnails/            # 12 sample video thumbnail images
+        ├── thumbnail-01.jpg
+        └── ... (through thumbnail-12.jpg)
 ```
 
 Components own their own CSS file. Pages import component styles as needed. The token system is the single source of truth for all visual values.

@@ -183,20 +183,20 @@
     <section class="category-chips category-chips--fade-right" aria-label="Video categories">
       <h2 class="sr-only">Categories</h2>
       <div class="category-chips__list" role="tablist" aria-label="Filter by category">
-        <button class="category-chip category-chip--active" role="tab" aria-selected="true">All</button>
-        <button class="category-chip" role="tab" aria-selected="false">Technology</button>
-        <button class="category-chip" role="tab" aria-selected="false">Photography</button>
-        <button class="category-chip" role="tab" aria-selected="false">Food</button>
-        <button class="category-chip" role="tab" aria-selected="false">Travel</button>
-        <button class="category-chip" role="tab" aria-selected="false">Art &amp; Design</button>
-        <button class="category-chip" role="tab" aria-selected="false">Science</button>
-        <button class="category-chip" role="tab" aria-selected="false">Music</button>
-        <button class="category-chip" role="tab" aria-selected="false">Fitness</button>
-        <button class="category-chip" role="tab" aria-selected="false">Lifestyle</button>
-        <button class="category-chip" role="tab" aria-selected="false">Gaming</button>
-        <button class="category-chip" role="tab" aria-selected="false">Education</button>
-        <button class="category-chip" role="tab" aria-selected="false">News</button>
-        <button class="category-chip" role="tab" aria-selected="false">Film</button>
+        <button class="category-chip category-chip--active" role="tab" aria-selected="true" data-category="all">All</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="technology">Technology</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="photography">Photography</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="food">Food</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="travel">Travel</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="art-design">Art &amp; Design</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="science">Science</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="music">Music</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="fitness">Fitness</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="lifestyle">Lifestyle</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="gaming">Gaming</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="education">Education</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="news">News</button>
+        <button class="category-chip" role="tab" aria-selected="false" data-category="film">Film</button>
       </div>
     </section>
 
@@ -207,7 +207,7 @@
       <div class="video-grid">
 
         <!-- Video Card 1 -->
-        <article class="video-card" data-video-id="v001">
+        <article class="video-card" data-video-id="v001" data-category="technology">
           <a href="#" class="video-card__thumbnail" aria-label="Building a Neural Network from Scratch — 18 minutes 42 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -234,7 +234,7 @@
         </article>
 
         <!-- Video Card 2 -->
-        <article class="video-card" data-video-id="v002">
+        <article class="video-card" data-video-id="v002" data-category="photography">
           <a href="#" class="video-card__thumbnail" aria-label="Ultimate Guide to Street Photography — 24 minutes 15 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -261,7 +261,7 @@
         </article>
 
         <!-- Video Card 3 -->
-        <article class="video-card" data-video-id="v003">
+        <article class="video-card" data-video-id="v003" data-category="food">
           <a href="#" class="video-card__thumbnail" aria-label="Making the Perfect Sourdough Bread — 32 minutes 8 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -288,7 +288,7 @@
         </article>
 
         <!-- Video Card 4 -->
-        <article class="video-card" data-video-id="v004">
+        <article class="video-card" data-video-id="v004" data-category="travel">
           <a href="#" class="video-card__thumbnail" aria-label="Exploring Iceland's Hidden Waterfalls — 15 minutes 27 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -315,7 +315,7 @@
         </article>
 
         <!-- Video Card 5 -->
-        <article class="video-card" data-video-id="v005">
+        <article class="video-card" data-video-id="v005" data-category="art-design">
           <a href="#" class="video-card__thumbnail" aria-label="Beginner's Guide to Digital Illustration — 41 minutes 3 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -342,7 +342,7 @@
         </article>
 
         <!-- Video Card 6 -->
-        <article class="video-card" data-video-id="v006">
+        <article class="video-card" data-video-id="v006" data-category="science">
           <a href="#" class="video-card__thumbnail" aria-label="The Science of Black Holes Explained — 22 minutes 51 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -369,7 +369,7 @@
         </article>
 
         <!-- Video Card 7 -->
-        <article class="video-card" data-video-id="v007">
+        <article class="video-card" data-video-id="v007" data-category="music">
           <a href="#" class="video-card__thumbnail" aria-label="Lo-Fi Beats to Study To — Live Mix — 3 hours 14 minutes 22 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -396,7 +396,7 @@
         </article>
 
         <!-- Video Card 8 -->
-        <article class="video-card" data-video-id="v008">
+        <article class="video-card" data-video-id="v008" data-category="fitness">
           <a href="#" class="video-card__thumbnail" aria-label="30-Minute Full Body HIIT Workout — 31 minutes 45 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -423,7 +423,7 @@
         </article>
 
         <!-- Video Card 9 -->
-        <article class="video-card" data-video-id="v009">
+        <article class="video-card" data-video-id="v009" data-category="technology">
           <a href="#" class="video-card__thumbnail" aria-label="How Electric Cars Actually Work — 19 minutes 33 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -450,7 +450,7 @@
         </article>
 
         <!-- Video Card 10 -->
-        <article class="video-card" data-video-id="v010">
+        <article class="video-card" data-video-id="v010" data-category="lifestyle">
           <a href="#" class="video-card__thumbnail" aria-label="Minimalist Apartment Tour — Tokyo — 12 minutes 18 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -477,7 +477,7 @@
         </article>
 
         <!-- Video Card 11 -->
-        <article class="video-card" data-video-id="v011">
+        <article class="video-card" data-video-id="v011" data-category="science">
           <a href="#" class="video-card__thumbnail" aria-label="Understanding Quantum Computing — 28 minutes 9 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -504,7 +504,7 @@
         </article>
 
         <!-- Video Card 12 -->
-        <article class="video-card" data-video-id="v012">
+        <article class="video-card" data-video-id="v012" data-category="travel">
           <a href="#" class="video-card__thumbnail" aria-label="Cinematic Drone Footage — Swiss Alps — 8 minutes 56 seconds">
             <img
               class="video-card__thumbnail-img"
@@ -559,6 +559,7 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="data/videos.js"></script>
   <script src="js/theme-toggle.js"></script>
 
 </body>
