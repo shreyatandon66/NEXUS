@@ -1,7 +1,11 @@
 /* ============================================================
    NEXUS Authentication Logic
-   Handles sign-in form validation, password toggle, demo
-   localStorage auth, and nav auth-state updates.
+   Handles:
+   - Sign In / Sign Up tab switching
+   - Form validation for both modes
+   - Password visibility toggle
+   - Demo localStorage auth state
+   - Nav auth-state updates (avatar on home page)
 
    ⚠ WARNING: This is a frontend-only demo using localStorage.
    Do NOT use this for real authentication. Replace with a
@@ -16,6 +20,8 @@
 
   // ============================================================
   // Demo Auth Utilities (localStorage only — NOT secure)
+  // Exposed on window.NexusAuth so other team scripts can
+  // check auth state without duplicating logic.
   // ============================================================
 
   /**
@@ -46,9 +52,32 @@
     localStorage.removeItem(AUTH_KEY);
   }
 
+  // Expose auth utilities for other team scripts
+  window.NexusAuth = {
+    getAuthState: getAuthState,
+    setAuthState: setAuthState,
+    clearAuthState: clearAuthState
+  };
+
   // ============================================================
-  // Validation
+  // Validation Helpers
   // ============================================================
+
+  /**
+   * Validate name field.
+   * @param {string} value
+   * @returns {string} Error message or empty string
+   */
+  function validateName(value) {
+    var trimmed = value.trim();
+    if (!trimmed) {
+      return 'Name is required';
+    }
+    if (trimmed.length < 2) {
+      return 'Name must be at least 2 characters';
+    }
+    return '';
+  }
 
   /**
    * Validate email/username field.
@@ -72,6 +101,23 @@
   }
 
   /**
+   * Validate strict email (for sign-up).
+   * @param {string} value
+   * @returns {string} Error message or empty string
+   */
+  function validateStrictEmail(value) {
+    var trimmed = value.trim();
+    if (!trimmed) {
+      return 'Email is required';
+    }
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(trimmed)) {
+      return 'Please enter a valid email address';
+    }
+    return '';
+  }
+
+  /**
    * Validate password field.
    * @param {string} value
    * @returns {string} Error message or empty string
@@ -88,8 +134,8 @@
 
   /**
    * Show or clear an error on a form field.
-   * @param {string} fieldId  - ID of the .signin__field container
-   * @param {string} errorId  - ID of the .signin__error element
+   * @param {string} fieldId  - ID of the .auth__field container
+   * @param {string} errorId  - ID of the .auth__error element
    * @param {string} message  - Error text (empty to clear)
    */
   function showFieldError(fieldId, errorId, message) {
@@ -98,9 +144,9 @@
 
     if (field) {
       if (message) {
-        field.classList.add('signin__field--error');
+        field.classList.add('auth__field--error');
       } else {
-        field.classList.remove('signin__field--error');
+        field.classList.remove('auth__field--error');
       }
     }
     if (error) {
@@ -112,9 +158,9 @@
   // Password Visibility Toggle
   // ============================================================
 
-  function initPasswordToggle() {
-    var toggle = document.getElementById('password-toggle');
-    var input = document.getElementById('signin-password');
+  function initPasswordToggle(toggleId, inputId) {
+    var toggle = document.getElementById(toggleId);
+    var input = document.getElementById(inputId);
     if (!toggle || !input) return;
 
     toggle.addEventListener('click', function () {
@@ -135,10 +181,41 @@
   }
 
   // ============================================================
+  // Tab Switching (Sign In ↔ Sign Up)
+  // ============================================================
+
+  function initTabs() {
+    var tabSignin = document.getElementById('tab-signin');
+    var tabSignup = document.getElementById('tab-signup');
+    var panelSignin = document.getElementById('panel-signin');
+    var panelSignup = document.getElementById('panel-signup');
+
+    if (!tabSignin || !tabSignup || !panelSignin || !panelSignup) return;
+
+    function activateTab(activeTab, inactiveTab, activePanel, inactivePanel) {
+      activeTab.classList.add('auth__tab--active');
+      activeTab.setAttribute('aria-selected', 'true');
+      inactiveTab.classList.remove('auth__tab--active');
+      inactiveTab.setAttribute('aria-selected', 'false');
+
+      activePanel.classList.remove('auth__panel--hidden');
+      inactivePanel.classList.add('auth__panel--hidden');
+    }
+
+    tabSignin.addEventListener('click', function () {
+      activateTab(tabSignin, tabSignup, panelSignin, panelSignup);
+    });
+
+    tabSignup.addEventListener('click', function () {
+      activateTab(tabSignup, tabSignin, panelSignup, panelSignin);
+    });
+  }
+
+  // ============================================================
   // Sign-In Form
   // ============================================================
 
-  function initForm() {
+  function initSigninForm() {
     var form = document.getElementById('signin-form');
     if (!form) return;
 
@@ -149,12 +226,12 @@
     // Clear errors on input
     if (emailInput) {
       emailInput.addEventListener('input', function () {
-        showFieldError('field-email', 'error-email', '');
+        showFieldError('field-signin-email', 'error-signin-email', '');
       });
     }
     if (passwordInput) {
       passwordInput.addEventListener('input', function () {
-        showFieldError('field-password', 'error-password', '');
+        showFieldError('field-signin-password', 'error-signin-password', '');
       });
     }
 
@@ -164,15 +241,14 @@
       var email = emailInput ? emailInput.value : '';
       var password = passwordInput ? passwordInput.value : '';
 
-      // Validate both fields
+      // Validate
       var emailError = validateEmail(email);
       var passwordError = validatePassword(password);
 
-      showFieldError('field-email', 'error-email', emailError);
-      showFieldError('field-password', 'error-password', passwordError);
+      showFieldError('field-signin-email', 'error-signin-email', emailError);
+      showFieldError('field-signin-password', 'error-signin-password', passwordError);
 
       if (emailError || passwordError) {
-        // Focus first field with an error
         if (emailError && emailInput) {
           emailInput.focus();
         } else if (passwordError && passwordInput) {
@@ -181,13 +257,12 @@
         return;
       }
 
-      // --- Loading state ---
+      // Loading state
       submitBtn.disabled = true;
-      submitBtn.classList.add('signin__submit--loading');
+      submitBtn.classList.add('auth__submit--loading');
 
       // Simulate network delay (demo only)
       setTimeout(function () {
-        // Build demo user object
         var displayName = email.indexOf('@') !== -1
           ? email.split('@')[0]
           : email;
@@ -205,37 +280,134 @@
   }
 
   // ============================================================
-  // Signed-In Status Bar (on signin.html)
+  // Sign-Up Form
+  // ============================================================
+
+  function initSignupForm() {
+    var form = document.getElementById('signup-form');
+    if (!form) return;
+
+    var nameInput = document.getElementById('signup-name');
+    var emailInput = document.getElementById('signup-email');
+    var passwordInput = document.getElementById('signup-password');
+    var confirmInput = document.getElementById('signup-confirm');
+    var submitBtn = document.getElementById('signup-submit');
+
+    // Clear errors on input
+    if (nameInput) {
+      nameInput.addEventListener('input', function () {
+        showFieldError('field-signup-name', 'error-signup-name', '');
+      });
+    }
+    if (emailInput) {
+      emailInput.addEventListener('input', function () {
+        showFieldError('field-signup-email', 'error-signup-email', '');
+      });
+    }
+    if (passwordInput) {
+      passwordInput.addEventListener('input', function () {
+        showFieldError('field-signup-password', 'error-signup-password', '');
+      });
+    }
+    if (confirmInput) {
+      confirmInput.addEventListener('input', function () {
+        showFieldError('field-signup-confirm', 'error-signup-confirm', '');
+      });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var name = nameInput ? nameInput.value : '';
+      var email = emailInput ? emailInput.value : '';
+      var password = passwordInput ? passwordInput.value : '';
+      var confirm = confirmInput ? confirmInput.value : '';
+
+      // Validate all fields
+      var nameError = validateName(name);
+      var emailError = validateStrictEmail(email);
+      var passwordError = validatePassword(password);
+      var confirmError = '';
+
+      if (!confirm) {
+        confirmError = 'Please confirm your password';
+      } else if (confirm !== password) {
+        confirmError = 'Passwords do not match';
+      }
+
+      showFieldError('field-signup-name', 'error-signup-name', nameError);
+      showFieldError('field-signup-email', 'error-signup-email', emailError);
+      showFieldError('field-signup-password', 'error-signup-password', passwordError);
+      showFieldError('field-signup-confirm', 'error-signup-confirm', confirmError);
+
+      if (nameError || emailError || passwordError || confirmError) {
+        // Focus first field with error
+        if (nameError && nameInput) nameInput.focus();
+        else if (emailError && emailInput) emailInput.focus();
+        else if (passwordError && passwordInput) passwordInput.focus();
+        else if (confirmError && confirmInput) confirmInput.focus();
+        return;
+      }
+
+      // Loading state
+      submitBtn.disabled = true;
+      submitBtn.classList.add('auth__submit--loading');
+
+      // Simulate network delay (demo only)
+      setTimeout(function () {
+        var displayName = name.trim().split(' ')[0];
+        var user = {
+          email: email.trim(),
+          displayName: displayName,
+          fullName: name.trim(),
+          initial: (displayName[0] || 'U').toUpperCase(),
+          signedInAt: new Date().toISOString()
+        };
+
+        setAuthState(user);
+        window.location.href = 'index.html';
+      }, 1200);
+    });
+  }
+
+  // ============================================================
+  // Signed-In Status Bar (on auth.html)
   // ============================================================
 
   function initSignedInStatus() {
-    var statusBar = document.getElementById('signin-status');
+    var statusBar = document.getElementById('auth-status');
     if (!statusBar) return;
 
     var auth = getAuthState();
     if (!auth) return;
 
     // Show the status bar
-    var nameEl = document.getElementById('signin-status-name');
+    var nameEl = document.getElementById('auth-status-name');
     if (nameEl) {
-      nameEl.textContent = auth.displayName || auth.email;
+      nameEl.textContent = auth.fullName || auth.displayName || auth.email;
     }
     statusBar.removeAttribute('hidden');
+
+    // Hide the tab toggle and forms when already signed in
+    var tabs = document.querySelector('.auth__tabs');
+    var panelSignin = document.getElementById('panel-signin');
+    var panelSignup = document.getElementById('panel-signup');
+    if (tabs) tabs.style.display = 'none';
+    if (panelSignin) panelSignin.style.display = 'none';
+    if (panelSignup) panelSignup.style.display = 'none';
 
     // Bind sign-out button
     var signoutBtn = document.getElementById('btn-signout');
     if (signoutBtn) {
       signoutBtn.addEventListener('click', function () {
         clearAuthState();
-        // Hide status bar and re-enable form
-        statusBar.setAttribute('hidden', '');
-        updateNavAuthState();
+        window.location.reload();
       });
     }
   }
 
   // ============================================================
-  // Nav Auth State (runs on any page with the avatar)
+  // Nav Auth State (runs on any page with the avatar button)
   // ============================================================
 
   function updateNavAuthState() {
@@ -247,12 +419,12 @@
     if (auth) {
       // Signed in — show user initial
       avatar.textContent = auth.initial || 'U';
-      avatar.setAttribute('aria-label', 'Signed in as ' + auth.displayName);
+      avatar.setAttribute('aria-label', 'Signed in as ' + (auth.displayName || 'User'));
       avatar.onclick = function () {
-        window.location.href = 'signin.html';
+        window.location.href = 'auth.html';
       };
     } else {
-      // Not signed in — show person icon and link to signin
+      // Not signed in — show person icon and link to auth
       avatar.innerHTML =
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
         'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ' +
@@ -262,22 +434,21 @@
         '</svg>';
       avatar.setAttribute('aria-label', 'Sign in');
       avatar.onclick = function () {
-        window.location.href = 'signin.html';
+        window.location.href = 'auth.html';
       };
     }
   }
 
   // ============================================================
-  // Placeholder Features (social, forgot, create account)
+  // Placeholder Features (social, forgot)
   // ============================================================
 
   function initPlaceholders() {
     // Social sign-in buttons — UI only
-    var socialBtns = document.querySelectorAll('.signin__social-btn');
+    var socialBtns = document.querySelectorAll('.auth__social-btn');
     for (var i = 0; i < socialBtns.length; i++) {
       socialBtns[i].addEventListener('click', function (e) {
         e.preventDefault();
-        // No-op: placeholder only
       });
     }
 
@@ -288,14 +459,6 @@
         e.preventDefault();
       });
     }
-
-    // Create account
-    var createLink = document.getElementById('link-create-account');
-    if (createLink) {
-      createLink.addEventListener('click', function (e) {
-        e.preventDefault();
-      });
-    }
   }
 
   // ============================================================
@@ -303,10 +466,16 @@
   // ============================================================
 
   function init() {
-    initPasswordToggle();
-    initForm();
+    // Auth page features
+    initTabs();
+    initPasswordToggle('signin-password-toggle', 'signin-password');
+    initPasswordToggle('signup-password-toggle', 'signup-password');
+    initSigninForm();
+    initSignupForm();
     initSignedInStatus();
     initPlaceholders();
+
+    // Nav auth state (works on any page with btn-profile)
     updateNavAuthState();
   }
 

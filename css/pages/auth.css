@@ -1,11 +1,12 @@
 /* ============================================================
-   NEXUS Sign In Page Styles
-   Centered card layout with form, social placeholders, and
-   responsive behavior. Uses existing design tokens.
+   NEXUS Authentication Page Styles
+   Centered card layout with Sign In / Sign Up tab toggle,
+   form fields, social placeholders, and responsive behavior.
+   Uses existing design tokens from tokens.css.
    ============================================================ */
 
 /* --- Page Layout --- */
-.signin-page {
+.auth-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -15,7 +16,7 @@
 }
 
 /* --- Floating Theme Toggle --- */
-.signin-page__theme-toggle {
+.auth-page__theme-toggle {
   position: fixed;
   top: var(--space-4);
   right: var(--space-4);
@@ -35,18 +36,18 @@
               border-color var(--transition-fast);
 }
 
-.signin-page__theme-toggle:hover {
+.auth-page__theme-toggle:hover {
   color: var(--color-text-primary);
   background-color: var(--color-bg-tertiary);
 }
 
-.signin-page__theme-toggle svg {
+.auth-page__theme-toggle svg {
   width: 20px;
   height: 20px;
 }
 
 /* --- Card --- */
-.signin-card {
+.auth-card {
   width: 100%;
   max-width: 420px;
   background-color: var(--color-bg-secondary);
@@ -60,7 +61,7 @@
 }
 
 /* --- Logo --- */
-.signin__logo {
+.auth__logo {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,17 +70,17 @@
   text-decoration: none;
 }
 
-.signin__logo:hover {
+.auth__logo:hover {
   color: inherit;
 }
 
-.signin__logo-icon {
+.auth__logo-icon {
   width: 32px;
   height: 32px;
   color: var(--color-accent);
 }
 
-.signin__logo-text {
+.auth__logo-text {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
@@ -87,68 +88,144 @@
 }
 
 /* --- Tagline --- */
-.signin__tagline {
+.auth__tagline {
   text-align: center;
   font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
 }
 
 /* --- Signed-In Status Bar --- */
-.signin__status {
+.auth__status {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-4);
   background-color: var(--color-accent-subtle);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   margin-bottom: var(--space-6);
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
+  text-align: center;
 }
 
-.signin__status[hidden] {
+.auth__status[hidden] {
   display: none;
 }
 
-.signin__status-action {
-  font-size: var(--font-size-xs);
+.auth__status-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.auth__status-continue {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-accent);
+  transition: color var(--transition-fast);
+}
+
+.auth__status-continue:hover {
+  color: var(--color-accent-hover);
+}
+
+.auth__status-action {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
   white-space: nowrap;
   transition: color var(--transition-fast);
 }
 
-.signin__status-action:hover {
-  color: var(--color-accent-hover);
+.auth__status-action:hover {
+  color: var(--color-danger);
+}
+
+/* ============================================================
+   TAB TOGGLE (Sign In / Sign Up)
+   ============================================================ */
+
+.auth__tabs {
+  display: flex;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  margin-bottom: var(--space-6);
+}
+
+.auth__tab {
+  flex: 1;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: color var(--transition-fast),
+              background-color var(--transition-fast);
+  border: none;
+  background: transparent;
+}
+
+.auth__tab:hover {
+  color: var(--color-text-primary);
+}
+
+.auth__tab--active {
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.auth__tab--active:hover {
+  background-color: var(--color-accent-hover);
+  color: #FFFFFF;
+}
+
+.auth__tab:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* --- Panels --- */
+.auth__panel {
+  display: block;
+}
+
+.auth__panel--hidden {
+  display: none;
 }
 
 /* --- Form --- */
-.signin__form {
+.auth__form {
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
 }
 
 /* --- Field --- */
-.signin__field {
+.auth__field {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
 }
 
 /* --- Label --- */
-.signin__label {
+.auth__label {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
 }
 
 /* --- Input --- */
-.signin__input {
+.auth__input {
   width: 100%;
   height: 44px;
   padding-inline: var(--space-4);
@@ -161,41 +238,41 @@
               box-shadow var(--transition-fast);
 }
 
-.signin__input::placeholder {
+.auth__input::placeholder {
   color: var(--color-text-tertiary);
 }
 
-.signin__input:focus {
+.auth__input:focus {
   outline: none;
   border-color: var(--color-accent);
   box-shadow: 0 0 0 3px var(--color-accent-subtle);
 }
 
 /* Error state on field */
-.signin__field--error .signin__input {
+.auth__field--error .auth__input {
   border-color: var(--color-danger);
 }
 
-.signin__field--error .signin__input:focus {
+.auth__field--error .auth__input:focus {
   border-color: var(--color-danger);
   box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.12);
 }
 
-.signin__field--error .signin__label {
+.auth__field--error .auth__label {
   color: var(--color-danger);
 }
 
 /* --- Password Input Wrapper --- */
-.signin__input-wrapper {
+.auth__input-wrapper {
   position: relative;
 }
 
-.signin__input--has-toggle {
+.auth__input--has-toggle {
   padding-right: calc(var(--space-4) + 32px);
 }
 
 /* --- Password Toggle Button --- */
-.signin__password-toggle {
+.auth__password-toggle {
   position: absolute;
   right: var(--space-1);
   top: 50%;
@@ -211,38 +288,37 @@
   transition: color var(--transition-fast);
 }
 
-.signin__password-toggle:hover {
+.auth__password-toggle:hover {
   color: var(--color-text-primary);
 }
 
-.signin__password-toggle svg {
+.auth__password-toggle svg {
   width: 18px;
   height: 18px;
 }
 
 /* --- Error Message --- */
-.signin__error {
+.auth__error {
   font-size: var(--font-size-xs);
   color: var(--color-danger);
   line-height: var(--line-height-normal);
   min-height: 0;
 }
 
-.signin__error:empty {
+.auth__error:empty {
   display: none;
 }
 
-/* --- Error icon prefix --- */
-.signin__error::before {
+.auth__error::before {
   content: "";
 }
 
-.signin__error:not(:empty)::before {
+.auth__error:not(:empty)::before {
   content: "⚠ ";
 }
 
 /* --- Options Row (Remember Me + Forgot Password) --- */
-.signin__options {
+.auth__options {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -250,7 +326,7 @@
 }
 
 /* --- Custom Checkbox --- */
-.signin__checkbox-label {
+.auth__checkbox-label {
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -260,7 +336,7 @@
   user-select: none;
 }
 
-.signin__checkbox {
+.auth__checkbox {
   position: absolute;
   opacity: 0;
   width: 0;
@@ -268,7 +344,7 @@
   pointer-events: none;
 }
 
-.signin__checkbox-mark {
+.auth__checkbox-mark {
   width: 16px;
   height: 16px;
   border: 1.5px solid var(--color-text-tertiary);
@@ -281,12 +357,12 @@
               border-color var(--transition-fast);
 }
 
-.signin__checkbox:checked + .signin__checkbox-mark {
+.auth__checkbox:checked + .auth__checkbox-mark {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
 }
 
-.signin__checkbox:checked + .signin__checkbox-mark::after {
+.auth__checkbox:checked + .auth__checkbox-mark::after {
   content: "";
   display: block;
   width: 4px;
@@ -296,25 +372,25 @@
   transform: rotate(45deg) translate(-0.5px, -0.5px);
 }
 
-.signin__checkbox:focus-visible + .signin__checkbox-mark {
+.auth__checkbox:focus-visible + .auth__checkbox-mark {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
 /* --- Forgot Password Link --- */
-.signin__forgot {
+.auth__forgot {
   font-size: var(--font-size-sm);
   color: var(--color-accent);
   white-space: nowrap;
   transition: color var(--transition-fast);
 }
 
-.signin__forgot:hover {
+.auth__forgot:hover {
   color: var(--color-accent-hover);
 }
 
 /* --- Submit Button --- */
-.signin__submit {
+.auth__submit {
   width: 100%;
   height: 44px;
   background-color: var(--color-accent);
@@ -334,34 +410,34 @@
               transform var(--transition-fast);
 }
 
-.signin__submit:hover:not(:disabled) {
+.auth__submit:hover:not(:disabled) {
   background-color: var(--color-accent-hover);
 }
 
-.signin__submit:active:not(:disabled) {
+.auth__submit:active:not(:disabled) {
   transform: scale(0.98);
 }
 
-.signin__submit:focus-visible {
+.auth__submit:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
-.signin__submit:disabled {
+.auth__submit:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
 /* Loading state */
-.signin__submit-loader {
+.auth__submit-loader {
   display: none;
 }
 
-.signin__submit--loading .signin__submit-text {
+.auth__submit--loading .auth__submit-text {
   visibility: hidden;
 }
 
-.signin__submit--loading .signin__submit-loader {
+.auth__submit--loading .auth__submit-loader {
   display: block;
   position: absolute;
   width: 20px;
@@ -369,17 +445,17 @@
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: #FFFFFF;
   border-radius: var(--radius-full);
-  animation: signin-spin 0.6s linear infinite;
+  animation: auth-spin 0.6s linear infinite;
 }
 
-@keyframes signin-spin {
+@keyframes auth-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
 /* --- Continue as Guest --- */
-.signin__guest {
+.auth__guest {
   display: block;
   text-align: center;
   margin-top: var(--space-3);
@@ -388,40 +464,40 @@
   transition: color var(--transition-fast);
 }
 
-.signin__guest:hover {
+.auth__guest:hover {
   color: var(--color-text-primary);
 }
 
 /* --- Divider --- */
-.signin__divider {
+.auth__divider {
   display: flex;
   align-items: center;
   gap: var(--space-4);
   margin-block: var(--space-6);
 }
 
-.signin__divider::before,
-.signin__divider::after {
+.auth__divider::before,
+.auth__divider::after {
   content: "";
   flex: 1;
   height: 1px;
   background-color: var(--color-border);
 }
 
-.signin__divider span {
+.auth__divider span {
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
   white-space: nowrap;
 }
 
 /* --- Social Buttons --- */
-.signin__social {
+.auth__social {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-3);
 }
 
-.signin__social-btn {
+.auth__social-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -438,38 +514,20 @@
               border-color var(--transition-fast);
 }
 
-.signin__social-btn:hover {
+.auth__social-btn:hover {
   background-color: var(--color-bg-tertiary);
   border-color: var(--color-text-tertiary);
 }
 
-.signin__social-btn:focus-visible {
+.auth__social-btn:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
-.signin__social-btn svg {
+.auth__social-btn svg {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-}
-
-/* --- Create Account Footer --- */
-.signin__footer {
-  text-align: center;
-  margin-top: var(--space-6);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-tertiary);
-}
-
-.signin__create-link {
-  color: var(--color-accent);
-  font-weight: var(--font-weight-medium);
-  transition: color var(--transition-fast);
-}
-
-.signin__create-link:hover {
-  color: var(--color-accent-hover);
 }
 
 /* ============================================================
@@ -477,36 +535,36 @@
    ============================================================ */
 
 @media (max-width: 639px) {
-  .signin-page {
+  .auth-page {
     padding: var(--space-4);
   }
 
-  .signin-card {
+  .auth-card {
     padding: var(--space-8) var(--space-5);
   }
 
-  .signin__social {
+  .auth__social {
     grid-template-columns: 1fr;
   }
 
-  .signin__options {
+  .auth__options {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-3);
   }
 
-  .signin-page__theme-toggle {
+  .auth-page__theme-toggle {
     top: var(--space-3);
     right: var(--space-3);
   }
 }
 
 @media (max-width: 380px) {
-  .signin-page {
+  .auth-page {
     padding: var(--space-2);
   }
 
-  .signin-card {
+  .auth-card {
     padding: var(--space-6) var(--space-4);
     border-radius: var(--radius-md);
   }

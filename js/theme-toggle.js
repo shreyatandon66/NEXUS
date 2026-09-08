@@ -91,6 +91,14 @@
       });
     }
 
+    // Prevent search form default submission (Ananya will add real search logic)
+    const searchForms = document.querySelectorAll('.nav__search-form');
+    searchForms.forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+      });
+    });
+
     // Category chips scroll fade indicators
     const chipsContainer = document.querySelector('.category-chips');
     const chipsList = document.querySelector('.category-chips__list');
