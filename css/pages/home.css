@@ -1,0 +1,60 @@
+/* ============================================================
+   NEXUS Home Page Styles
+   Layout for the home feed: category chips + video grid.
+   ============================================================ */
+
+/* --- Main Content Area --- */
+.main-content {
+  padding-top: calc(var(--nav-height) + var(--space-2));
+  min-height: 100vh;
+}
+
+/* --- Video Feed Section --- */
+.video-feed {
+  padding-bottom: var(--space-8);
+}
+
+.video-feed__heading {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-6);
+}
+
+/* --- Video Grid --- */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6) var(--space-5);
+}
+
+/* --- Responsive Grid --- */
+@media (max-width: 1399px) {
+  .video-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1023px) {
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 639px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .main-content {
+    padding-top: calc(var(--nav-height) + var(--space-1));
+  }
+}
+
+/* --- Fluid heading on smaller screens --- */
+@media (max-width: 1023px) {
+  .video-feed__heading {
+    font-size: clamp(var(--font-size-lg), 3vw, var(--font-size-xl));
+  }
+}
